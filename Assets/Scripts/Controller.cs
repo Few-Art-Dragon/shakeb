@@ -5,15 +5,16 @@ using UnityEngine.UI;
 
 public class Controller : MonoBehaviour
 {
-    public Text text;
 
     private Vector3 accelerator = Vector3.zero;
+
     [SerializeField]
     private int countShake;
     
     private int nowTimer;
 
-    public float speed;
+    [SerializeField]
+    private float speed;
 
     private bool gameOver;
     private bool isFirstShake;
@@ -29,8 +30,7 @@ public class Controller : MonoBehaviour
         accelerator = Input.acceleration;
         countShake = 12;
         nowTimer = 0;
-        StartCoroutine(IStart());
-
+        
     }
 
     // Update is called once per frame
@@ -40,24 +40,6 @@ public class Controller : MonoBehaviour
         {
             ShakeBottle();
         }
-        
-
-
-        //Vector3 dir = Vector3.zero;
-
-        //dir.x = -Input.acceleration.y;
-        //dir.z = Input.acceleration.x;
-
-        //if (dir.sqrMagnitude > 1)
-        //    dir.Normalize();
-
-        //dir *= Time.deltaTime;
-
-        //transform.Translate(dir * speed);
-        //text.text = "X: " + dir.x.ToString("0.00") + " Y: " + dir.y.ToString("0.00") + " Z: " + dir.z.ToString("0.00");
-
-
-
     }
     private void OnMouseDown()
     {
@@ -82,23 +64,14 @@ public class Controller : MonoBehaviour
         {
             isShaked = false;
         }
-
-
-        //text.text = countShake.ToString();
-
     }
 
     private void StartBottle()
     {
         _rg2D.AddForce(transform.up * countShake * speed, ForceMode2D.Impulse);
+        countShake = 0;
     }
-    IEnumerator IStart()
-    {
 
-        yield return new WaitForSeconds(2f);
-        
-        StartBottle();
-    }
 
     IEnumerator ITimer()
     {
@@ -111,7 +84,7 @@ public class Controller : MonoBehaviour
                 gameOver = true;
                 isFirstShake = true;
                 nowTimer = 0;
-                countShake = 0;
+                StartBottle();
                 StopCoroutine(ITimer());
             }
         }
