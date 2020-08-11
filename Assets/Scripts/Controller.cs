@@ -3,8 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
+
 public class Controller : MonoBehaviour
 {
+    public delegate void StartBottle();
+    public static event StartBottle startBottle;
+
 
     private Vector3 accelerator = Vector3.zero;
 
@@ -43,7 +48,8 @@ public class Controller : MonoBehaviour
     }
     private void OnMouseDown()
     {
-        StartBottle();
+        startBottle();
+        PushBottle();
     }
 
     private void ShakeBottle()
@@ -66,7 +72,7 @@ public class Controller : MonoBehaviour
         }
     }
 
-    private void StartBottle()
+    private void PushBottle()
     {
         _rg2D.AddForce(transform.up * countShake * speed, ForceMode2D.Impulse);
         countShake = 0;
@@ -84,7 +90,8 @@ public class Controller : MonoBehaviour
                 gameOver = true;
                 isFirstShake = true;
                 nowTimer = 0;
-                StartBottle();
+                startBottle();
+                PushBottle();
                 StopCoroutine(ITimer());
             }
         }
