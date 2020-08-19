@@ -87,12 +87,13 @@ public class Controller : MonoBehaviour
             nowTimer++;
             if (nowTimer >= 5)
             {
+                Handheld.Vibrate();
                 gameOver = true;
                 isFirstShake = true;
                 nowTimer = 0;
                 startBottle();
                 PushBottle();
-                StopCoroutine(ITimer());
+                StopAllCoroutines();
             }
         }
     }

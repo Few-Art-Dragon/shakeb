@@ -13,7 +13,7 @@ public class MainMenu : MonoBehaviour
     private float _placeA, _placeB;
 
     [SerializeField]
-    private RectTransform _mainMenu, _gameMenu, _shopMenu, _leadboardMenu;
+    private RectTransform _mainMenu, _gameMenu, _shopMenu, _bottleShopMenu, _leadboardMenu, _achievementMenu;
 
     public void GoGameMenu()
     {
@@ -27,10 +27,23 @@ public class MainMenu : MonoBehaviour
         _shopMenu.DOMoveX(_placeA, _duraction);
     }
 
+    public void GoBottleShopMenu()
+    {
+        _mainMenu.DOMoveX(_placeB, _duraction);
+        _bottleShopMenu.DOMoveX(_placeA, _duraction);
+    }
+
     public void GoLeadBoardMenu()
     {
         _mainMenu.DOMoveX(_placeB, _duraction);
         _leadboardMenu.DOMoveX(_placeA, _duraction);
+        
+    }
+
+    public void GoAchievementMenu()
+    {
+        _mainMenu.DOMoveX(_placeB, _duraction);
+        _achievementMenu.DOMoveX(_placeA, _duraction);
     }
 
     public void BackMainMenu()
@@ -38,10 +51,17 @@ public class MainMenu : MonoBehaviour
         _mainMenu.DOMoveX(_placeA, _duraction);
         _gameMenu.DOMoveX(_placeB, _duraction);
         _shopMenu.DOMoveX(_placeB, _duraction);
+        _bottleShopMenu.DOMoveX(_placeB, _duraction);
         _leadboardMenu.DOMoveX(_placeB, _duraction);
+        _achievementMenu.DOMoveX(_placeB, _duraction);
     }
     public void GoGameOne()
     {
         SceneManager.LoadScene("LVL1", LoadSceneMode.Single);
+    }
+
+    public void GoExit()
+    {
+        Application.Quit();
     }
 }
