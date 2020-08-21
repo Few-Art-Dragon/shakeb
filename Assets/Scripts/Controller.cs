@@ -28,12 +28,20 @@ public class Controller : MonoBehaviour
     [SerializeField]
     private Rigidbody2D _rg2D;
 
+    private void OnEnable()
+    {
+        Score.finishBottle += StopTimer;
+    }
+    private void OnDisable()
+    {
+        Score.finishBottle -= StopTimer;
+    }
+
     void Start()
     {
         _rg2D = GetComponent<Rigidbody2D>();
         isFirstShake = true;
         accelerator = Input.acceleration;
-        countShake = 12;
         nowTimer = 0;
         
     }
@@ -78,6 +86,11 @@ public class Controller : MonoBehaviour
         countShake = 0;
     }
 
+    private void StopTimer()
+    {
+        StopCoroutine(ITimer());
+    }
+
 
     IEnumerator ITimer()
     {
@@ -93,7 +106,7 @@ public class Controller : MonoBehaviour
                 nowTimer = 0;
                 startBottle();
                 PushBottle();
-                StopAllCoroutines();
+                
             }
         }
     }

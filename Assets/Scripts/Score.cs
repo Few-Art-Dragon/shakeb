@@ -5,11 +5,19 @@ using UnityEngine.UI;
 
 public class Score : MonoBehaviour
 {
+    [SerializeField]
+    private Camera _camera;
+
+    private bool beginStart;
+
+    [SerializeField]
+    private SaveAndLoad _saveAndLoad;
+
     public delegate void FinishBottle();
     public static event FinishBottle finishBottle;
 
     private Transform _transform;
-    [SerializeField]
+
     private Vector3 _currentPos, _prevPos;
 
     [SerializeField]
@@ -32,12 +40,24 @@ public class Score : MonoBehaviour
         _currentPos = _transform.position;
         _prevPos = _currentPos;
         _score = 0;
+
+        Debug.Log(_camera.WorldToScreenPoint(_transform.position));
+
+       // _scoreText.rectTransform.position = _camera.ScreenToWorldPoint(_transform.position);// WorldToScreenPoint(_transform.position);
+
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        CheckPositionBottle();
+        if (beginStart)
+        {
+            CheckPositionBottle();
+            
+        }
+
+        
 
     }
     private void CheckPositionBottle()
@@ -49,7 +69,9 @@ public class Score : MonoBehaviour
         }
         else if (_currentPos.y < _prevPos.y)
         {
+            beginStart = false;
             finishBottle();
+            _saveAndLoad.Save(_score);
             StopAllCoroutines();
         }
     }
@@ -61,6 +83,7 @@ public class Score : MonoBehaviour
 
     IEnumerator IAddScore()
     {
+        beginStart = true;
         while (true)
         {
             yield return new WaitForSeconds(0.25f);
