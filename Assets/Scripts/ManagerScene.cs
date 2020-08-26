@@ -7,18 +7,22 @@ using DG.Tweening;
 
 public class ManagerScene : MonoBehaviour
 {
+
+
     [SerializeField]
     private GameObject[] _buttons;
 
     [SerializeField]
     private Sprite _soundOn, _soundOff, _pause, _play;
     [SerializeField]
-    private Image _soundButton, _pauseButton;
+    private Image _pauseButton;
+    [SerializeField]
+    private Image[] _soundButton;
 
     private bool isSoundOn, isPause;
 
     [SerializeField]
-    private GameObject _gameOverMenu;
+    private GameObject _gameOverMenu, _pauseMenu, _textScore, _textDescription;
     private void Start()
     {
         isSoundOn = true;
@@ -37,7 +41,16 @@ public class ManagerScene : MonoBehaviour
     private void OpenGameOverMenu()
     {
         ChangeTimeScale();
-        _gameOverMenu.SetActive(true);
+
+        _textDescription.transform.DOLocalJump(new Vector3(0f, 0f, 0f), 1f, 1, 1f);
+
+        _pauseMenu.transform.DOLocalJump(new Vector3(0f, -800f, 0f), 1f, 1, 1f);
+
+        _gameOverMenu.transform.DOLocalJump(new Vector3(0f, 0f, 0f), 1f, 1, 1f);
+
+
+        _textScore.transform.DOLocalJump(new Vector3(0f, 200f, 0f) , 2f, 1, 1f);
+        _textDescription.SetActive(true);
     }
 
     private void EnableOrDisableButtons()
@@ -87,12 +100,14 @@ public class ManagerScene : MonoBehaviour
         if (isSoundOn)
         {
             isSoundOn = !isSoundOn;
-            _soundButton.sprite = _soundOff;
+            _soundButton[0].sprite = _soundOff;
+            _soundButton[1].sprite = _soundOff;
         }
         else
         {
             isSoundOn = !isSoundOn;
-            _soundButton.sprite = _soundOn;
+            _soundButton[0].sprite = _soundOn;
+            _soundButton[1].sprite = _soundOn;
         }
     }
 

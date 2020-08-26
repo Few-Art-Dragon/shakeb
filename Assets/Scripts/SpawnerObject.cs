@@ -2,9 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
+
 public class SpawnerObject : MonoBehaviour
 {
+    [SerializeField]
+    private int _limitSpawnObject;
+    public enum SideState { Horizontal, Vertical};
+    public SideState ActiveState = SideState.Vertical;
 
+    [SerializeField]
+    private bool _disableSpawnerWhenFinish;
 
     private Transform _transform;
     [SerializeField]
@@ -22,13 +31,20 @@ public class SpawnerObject : MonoBehaviour
     private void OnEnable()
     {
         Controller.startBottle += SpawnObjects;
-        Score.finishBottle += DisableSpawner;
+        if (_disableSpawnerWhenFinish)
+        {
+            Score.finishBottle += DisableSpawner;
+        }
+
     }
 
     private void OnDisable()
     {
         Controller.startBottle -= SpawnObjects;
-        Score.finishBottle -= DisableSpawner;
+        if (_disableSpawnerWhenFinish)
+        {
+            Score.finishBottle -= DisableSpawner;
+        }
     }
 
     private void Start()
@@ -55,7 +71,16 @@ public class SpawnerObject : MonoBehaviour
     //Random position for spawn object
     private Vector3 RandomPositionForObject()
     {
-        Vector3 positionObject = new Vector3(Random.Range(_minPosX, _maxPosX), _transform.position.y, _transform.position.z);
+        Vector3 positionObject = new Vector3(0f, 0f, 0f);
+        if (ActiveState == SideState.Vertical)
+        {
+            positionObject = new Vector3(_transform.position.x + Random.Range(_minPosX, _maxPosX), _transform.position.y, _transform.position.z);
+        }
+        else if (ActiveState == SideState.Horizontal)
+        {
+            positionObject = new Vector3(_transform.position.x, _transform.position.y + Random.Range(_minPosX, _maxPosX), _transform.position.z);
+        }
+        
         return positionObject;
     }
 
@@ -146,6 +171,20 @@ public class SpawnerObject : MonoBehaviour
         StopAllCoroutines();
     }
 
+    private int CheckCountSpawnerObject()
+    {
+        int count = 0;
+        foreach (var i in _objects)
+        {
+            if (i.activeSelf)
+            {
+                count++;
+            }
+        }
+        return count;
+
+    }
+
 
 
     IEnumerator ISpawnObject()
@@ -153,11 +192,13 @@ public class SpawnerObject : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(_timeSpawn);
-            if (CheckChanceOnSpawnObject() > _chanceProcent)
+            if (CheckCountSpawnerObject() < _limitSpawnObject)
             {
-                EnableObject();
-            }
-            
+                if (CheckChanceOnSpawnObject() > _chanceProcent)
+                {
+                    EnableObject();
+                }
+            }  
         }
     }
 }

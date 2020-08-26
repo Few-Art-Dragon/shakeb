@@ -55,9 +55,25 @@ public class MainMenu : MonoBehaviour
         _leadboardMenu.DOMoveX(_placeB, _duraction);
         _achievementMenu.DOMoveX(_placeB, _duraction);
     }
+
+    public void ShowAchievement()
+    {
+        PlayServices.instance.ShowAchievement();
+    }
+
+    public void ShowLederboard()
+    {
+        PlayServices.instance.ShowLeaderboard();
+    }
+
     public void GoGameOne()
     {
         SceneManager.LoadScene("LVL1", LoadSceneMode.Single);
+    }
+
+    public void GoGameTwo()
+    {
+        SceneManager.LoadScene("LVL2", LoadSceneMode.Single);
     }
 
     public void GoExit()

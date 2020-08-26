@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using DG.Tweening;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -86,7 +87,9 @@ public class Score : MonoBehaviour
         beginStart = true;
         while (true)
         {
+            _scoreText.GetComponent<RectTransform>().DOScale(1.3f, 0.25f);
             yield return new WaitForSeconds(0.25f);
+            _scoreText.GetComponent<RectTransform>().localScale = new Vector3(0.9f, 0.9f, 0.9f);
             _score += 1;
             _scoreText.text = _score.ToString();
         }

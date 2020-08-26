@@ -1,4 +1,5 @@
-﻿using DG.Tweening;
+﻿using Cinemachine;
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,12 +20,16 @@ public class Bottle : MonoBehaviour
     [SerializeField]
     private GameObject _particleWater;
 
+    [SerializeField]
+    private ParticleSystem _water;
+
     private void OnEnable()
     {
-        _particleWater.SetActive(false);
+        StopWater();
         Controller.startBottle += StartWater;
 
         Score.finishBottle += StopCamera;
+        Score.finishBottle += StopWater;
     }
     private void OnDisable()
     {
@@ -32,13 +37,18 @@ public class Bottle : MonoBehaviour
         Controller.startBottle -= StartWater;
 
         Score.finishBottle -= StopCamera;
+        Score.finishBottle -= StopWater;
     }
 
     private void StartWater()
     {
-        
-        _particleWater.SetActive(true);
+        _water.Play();
         StartCoroutine(IDropCap());
+    }
+
+    private void StopWater()
+    {
+        _water.Stop();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -83,6 +93,7 @@ public class Bottle : MonoBehaviour
     IEnumerator IWaitingStopCamera()
     {
         yield return new WaitForSeconds(_timeWaitingStopCamera);
-        _cinemachineCam.SetActive(false);
+        _cinemachineCam.GetComponent<CinemachineVirtualCamera>().enabled = false;
+        //_cinemachineCam.SetActive(false);
     }
 }

@@ -98,7 +98,7 @@ public class Controller : MonoBehaviour
         {
             yield return new WaitForSeconds(1f);
             nowTimer++;
-            if (nowTimer >= 5)
+            if (nowTimer == 5)
             {
                 Handheld.Vibrate();
                 gameOver = true;
@@ -106,7 +106,8 @@ public class Controller : MonoBehaviour
                 nowTimer = 0;
                 startBottle();
                 PushBottle();
-                
+                StopCoroutine(ITimer());
+                break;
             }
         }
     }
