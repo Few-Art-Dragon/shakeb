@@ -6,6 +6,8 @@ using DG.Tweening;
 
 public class MainMenu : MonoBehaviour
 {
+    public delegate void MusicDelegate();
+    public static event MusicDelegate GoGameOneEvent;
     [SerializeField]
     [Range(0f,1)]
     private float _duraction;
@@ -13,7 +15,7 @@ public class MainMenu : MonoBehaviour
     private float _placeA, _placeB;
 
     [SerializeField]
-    private RectTransform _mainMenu, _gameMenu, _shopMenu, _bottleShopMenu, _leadboardMenu, _achievementMenu;
+    private RectTransform _mainMenu, _gameMenu, _shopMenu, _bottleShopMenu, _leadboardMenu, _achievementMenu, _lines;
 
     public void GoGameMenu()
     {
@@ -21,33 +23,36 @@ public class MainMenu : MonoBehaviour
         _gameMenu.DOMoveX(_placeA, _duraction);
     }
 
-    public void GoShopMenu()
-    {
-        _mainMenu.DOMoveX(_placeB, _duraction);
-        _shopMenu.DOMoveX(_placeA, _duraction);
-    }
+    //public void GoShopMenu()
+    //{
+
+    //    _mainMenu.DOMoveX(_placeB, _duraction);
+    //    _shopMenu.DOMoveX(_placeA, _duraction);
+    //}
 
     public void GoBottleShopMenu()
     {
+        _lines.DOMoveX(_placeA, _duraction);
         _mainMenu.DOMoveX(_placeB, _duraction);
         _bottleShopMenu.DOMoveX(_placeA, _duraction);
     }
 
-    public void GoLeadBoardMenu()
-    {
-        _mainMenu.DOMoveX(_placeB, _duraction);
-        _leadboardMenu.DOMoveX(_placeA, _duraction);
+    //public void GoLeadBoardMenu()
+    //{
+    //    _mainMenu.DOMoveX(_placeB, _duraction);
+    //    _leadboardMenu.DOMoveX(_placeA, _duraction);
         
-    }
+    //}
 
-    public void GoAchievementMenu()
-    {
-        _mainMenu.DOMoveX(_placeB, _duraction);
-        _achievementMenu.DOMoveX(_placeA, _duraction);
-    }
+    //public void GoAchievementMenu()
+    //{
+    //    _mainMenu.DOMoveX(_placeB, _duraction);
+    //    _achievementMenu.DOMoveX(_placeA, _duraction);
+    //}
 
     public void BackMainMenu()
     {
+        _lines.DOMoveX(-_placeB, _duraction);
         _mainMenu.DOMoveX(_placeA, _duraction);
         _gameMenu.DOMoveX(_placeB, _duraction);
         _shopMenu.DOMoveX(_placeB, _duraction);
@@ -68,6 +73,7 @@ public class MainMenu : MonoBehaviour
 
     public void GoGameOne()
     {
+        GoGameOneEvent();
         SceneManager.LoadScene("LVL1", LoadSceneMode.Single);
     }
 

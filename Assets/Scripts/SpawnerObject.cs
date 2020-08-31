@@ -58,7 +58,7 @@ public class SpawnerObject : MonoBehaviour
         int num = Random.Range(0, 101);
         if (num % 2 == 0)
         {
-            num = 0;
+            num = -1;
         }
         else
         {

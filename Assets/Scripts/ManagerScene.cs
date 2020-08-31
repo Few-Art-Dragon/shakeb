@@ -7,7 +7,8 @@ using DG.Tweening;
 
 public class ManagerScene : MonoBehaviour
 {
-
+    public delegate void MusicDelegate();
+    public static event MusicDelegate GoMenuEvent, GoPauseEvent, GoGameEvent;
 
     [SerializeField]
     private GameObject[] _buttons;
@@ -31,6 +32,7 @@ public class ManagerScene : MonoBehaviour
     private void OnEnable()
     {
         Score.finishBottle += OpenGameOverMenu;
+        
     }
 
     private void OnDisable()
@@ -40,6 +42,7 @@ public class ManagerScene : MonoBehaviour
 
     private void OpenGameOverMenu()
     {
+        
         ChangeTimeScale();
 
         _textDescription.transform.DOLocalJump(new Vector3(0f, 0f, 0f), 1f, 1, 1f);
@@ -67,13 +70,14 @@ public class ManagerScene : MonoBehaviour
     {
         if (!isPause)
         {
+            GoPauseEvent();
             isPause = !isPause;
             Time.timeScale = 0;
             _pauseButton.sprite = _play;
         }
         else
         {
-            
+            GoGameEvent();
             isPause = !isPause;
             Time.timeScale = 1;
             _pauseButton.sprite = _pause;
@@ -114,6 +118,7 @@ public class ManagerScene : MonoBehaviour
     // Go Main menu
     public void GoMainMenu()
     {
+        GoMenuEvent();
         ChangeTimeScale();
         SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
     }
