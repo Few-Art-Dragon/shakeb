@@ -6,6 +6,9 @@ using UnityEngine.UI;
 
 public class Score : MonoBehaviour
 {
+    public delegate void FinishBottle();
+    public static event FinishBottle finishBottle;
+
     [SerializeField]
     private Camera _camera;
 
@@ -14,10 +17,7 @@ public class Score : MonoBehaviour
     [SerializeField]
     private SaveAndLoad _saveAndLoad;
 
-    public delegate void FinishBottle();
-    public static event FinishBottle finishBottle;
-
-    private Transform _transform;
+    private Transform _transformText;
 
     private Vector3 _currentPos, _prevPos;
 
@@ -25,45 +25,10 @@ public class Score : MonoBehaviour
     private Text _scoreText;
 
     private int _score;
-    private void OnEnable()
-    {
-        Controller.startBottle += AddScore;
-    }
-    private void OnDisable()
-    {
-        Controller.startBottle -= AddScore;
-    }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        _transform = GetComponent<Transform>();
-        _currentPos = _transform.position;
-        _prevPos = _currentPos;
-        _score = 0;
-
-        Debug.Log(_camera.WorldToScreenPoint(_transform.position));
-
-       // _scoreText.rectTransform.position = _camera.ScreenToWorldPoint(_transform.position);// WorldToScreenPoint(_transform.position);
-
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (beginStart)
-        {
-            CheckPositionBottle();
-            
-        }
-
-        
-
-    }
     private void CheckPositionBottle()
     {
-        _currentPos = _transform.position;
+        _currentPos = _transformText.position;
         if (_currentPos.y >= _prevPos.y)
         {
             _prevPos = _currentPos;
@@ -80,6 +45,37 @@ public class Score : MonoBehaviour
     private void AddScore()
     {
         StartCoroutine(IAddScore());
+    }
+
+    private void OnEnable()
+    {
+        Controller.startBottle += AddScore;
+    }
+
+    private void Start()
+    {
+        _transformText = GetComponent<Transform>();
+        _currentPos = _transformText.position;
+        _prevPos = _currentPos;
+        _score = 0;
+
+        Debug.Log(_camera.WorldToScreenPoint(_transformText.position));
+
+        // _scoreText.rectTransform.position = _camera.ScreenToWorldPoint(_transformText.position);// WorldToScreenPoint(_transformText.position);
+    }
+
+    // Update is called once per frame
+    private void Update()
+    {
+        if (beginStart)
+        {
+            CheckPositionBottle();
+        }
+    }
+
+    private void OnDisable()
+    {
+        Controller.startBottle -= AddScore;
     }
 
     IEnumerator IAddScore()

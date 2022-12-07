@@ -10,7 +10,6 @@ public class Controller : MonoBehaviour
     public delegate void StartBottle();
     public static event StartBottle startBottle;
 
-
     private Vector3 accelerator = Vector3.zero;
 
     [SerializeField]
@@ -27,38 +26,6 @@ public class Controller : MonoBehaviour
 
     [SerializeField]
     private Rigidbody2D _rg2D;
-
-    private void OnEnable()
-    {
-        Score.finishBottle += StopTimer;
-    }
-    private void OnDisable()
-    {
-        Score.finishBottle -= StopTimer;
-    }
-
-    void Start()
-    {
-        _rg2D = GetComponent<Rigidbody2D>();
-        isFirstShake = true;
-        accelerator = Input.acceleration;
-        nowTimer = 0;
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (!gameOver)
-        {
-            ShakeBottle();
-        }
-    }
-    private void OnMouseDown()
-    {
-        startBottle();
-        PushBottle();
-    }
 
     private void ShakeBottle()
     {
@@ -91,6 +58,37 @@ public class Controller : MonoBehaviour
         StopCoroutine(ITimer());
     }
 
+    private void OnEnable()
+    {
+        Score.finishBottle += StopTimer;
+    }
+
+    private void Start()
+    {
+        _rg2D = GetComponent<Rigidbody2D>();
+        isFirstShake = true;
+        accelerator = Input.acceleration;
+        nowTimer = 0;
+
+    }
+
+    private void Update()
+    {
+        if (!gameOver)
+        {
+            ShakeBottle();
+        }
+    }
+
+    private void OnMouseDown()
+    {
+        startBottle();
+        PushBottle();
+    }
+    private void OnDisable()
+    {
+        Score.finishBottle -= StopTimer;
+    }
 
     IEnumerator ITimer()
     {

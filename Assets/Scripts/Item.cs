@@ -24,7 +24,7 @@ public class Item : MonoBehaviour
     public void GetInfo()
     {
         _storeManager._item = this;
-        if (_bought)
+        if (CheckItemOnBought())
         {
             if (_used)
             {
@@ -39,5 +39,12 @@ public class Item : MonoBehaviour
         {
             _storeManager.ChangeTextOnBuyItem();
         }
+    }
+    private bool CheckItemOnBought()
+    {
+        if (_bought)
+            return false;
+
+        return true;
     }
 }

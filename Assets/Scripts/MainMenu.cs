@@ -8,11 +8,14 @@ public class MainMenu : MonoBehaviour
 {
     public delegate void MusicDelegate();
     public static event MusicDelegate GoGameOneEvent;
+
     [SerializeField]
     [Range(0f,1)]
     private float _duraction;
     [SerializeField]
-    private float _placeA, _placeB;
+    private float _placeA;
+    [SerializeField]
+    private float _placeB;
 
     [SerializeField]
     private RectTransform _mainMenu, _gameMenu, _shopMenu, _bottleShopMenu, _leadboardMenu, _achievementMenu, _lines;

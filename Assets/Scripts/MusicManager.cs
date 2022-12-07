@@ -4,25 +4,19 @@ using UnityEngine;
 using UnityEngine.Audio;
 public class MusicManager : MonoBehaviour
 {
-    
-
-    private static GameObject _gameObject;
+    private static GameObject _musicManagerObject;
     [SerializeField]
-    private AudioMixerSnapshot _mainmenu, _game1, _pause;
-    // Start is called before the first frame update
+    private AudioMixerSnapshot _mainMenuAudioMixer;
+    [SerializeField]
+    private AudioMixerSnapshot _firstGameModeAudioMixer;
+    [SerializeField]
+    private AudioMixerSnapshot _pauseAudioMixer;
 
-    private void OnEnable()
+    private void InitMusicManager()
     {
-        MainMenu.GoGameOneEvent += GoGame;
-        ManagerScene.GoMenuEvent += GoMainMenu;
-        ManagerScene.GoGameEvent += GoGame;
-        ManagerScene.GoPauseEvent += GoPause;
-    }
-    private void Awake()
-    {
-        if (_gameObject == null)
+        if (_musicManagerObject == null)
         {
-            _gameObject = gameObject;
+            _musicManagerObject = gameObject;
         }
         else
         {
@@ -31,32 +25,40 @@ public class MusicManager : MonoBehaviour
 
         DontDestroyOnLoad(gameObject);
     }
-    void Start()
-    {
-        
-    }
 
     public void GoPause()
     {
-        _pause.TransitionTo(0.01f);
+        _pauseAudioMixer.TransitionTo(0.01f);
     }
 
     public void GoGame()
     {
-        
-        _game1.TransitionTo(1f);
+        _firstGameModeAudioMixer.TransitionTo(1f);
     }
-
 
     public void GoMainMenu()
     {
-        _mainmenu.TransitionTo(1f);
+        _mainMenuAudioMixer.TransitionTo(1f);
     }
 
-
-    // Update is called once per frame
-    void Update()
+    private void OnEnable()
     {
-        
+        MainMenu.GoGameOneEvent += GoGame;
+        ManagerScene.GoMenuEvent += GoMainMenu;
+        ManagerScene.GoGameEvent += GoGame;
+        ManagerScene.GoPauseEvent += GoPause;
+    }
+
+    private void Awake()
+    {
+        InitMusicManager();
+    }
+
+    private void OnDisable()
+    {
+        MainMenu.GoGameOneEvent -= GoGame;
+        ManagerScene.GoMenuEvent -= GoMainMenu;
+        ManagerScene.GoGameEvent -= GoGame;
+        ManagerScene.GoPauseEvent -= GoPause;
     }
 }

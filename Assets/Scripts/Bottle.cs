@@ -19,26 +19,8 @@ public class Bottle : MonoBehaviour
 
     [SerializeField]
     private GameObject _particleWater;
-
     [SerializeField]
     private ParticleSystem _water;
-
-    private void OnEnable()
-    {
-        StopWater();
-        Controller.startBottle += StartWater;
-
-        Score.finishBottle += StopCamera;
-        Score.finishBottle += StopWater;
-    }
-    private void OnDisable()
-    {
-        _particleWater.SetActive(false);
-        Controller.startBottle -= StartWater;
-
-        Score.finishBottle -= StopCamera;
-        Score.finishBottle -= StopWater;
-    }
 
     private void StartWater()
     {
@@ -49,11 +31,6 @@ public class Bottle : MonoBehaviour
     private void StopWater()
     {
         _water.Stop();
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        DestroyCoin(collision);
     }
 
     private void StopCamera()
@@ -69,10 +46,32 @@ public class Bottle : MonoBehaviour
         }
     }
 
-    // Start is called before the first frame update
-    void Start()
+    private void OnEnable()
+    {
+        StopWater();
+        Controller.startBottle += StartWater;
+
+        Score.finishBottle += StopCamera;
+        Score.finishBottle += StopWater;
+    }
+
+    private void Start()
     {
         _cinemachineCam = GameObject.Find("CM vcam1");
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        DestroyCoin(collision);
+    }
+
+    private void OnDisable()
+    {
+        _particleWater.SetActive(false);
+        Controller.startBottle -= StartWater;
+
+        Score.finishBottle -= StopCamera;
+        Score.finishBottle -= StopWater;
     }
 
     IEnumerator IDropCap()

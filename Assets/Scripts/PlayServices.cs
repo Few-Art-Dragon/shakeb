@@ -1,8 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using GooglePlayGames;
-using GooglePlayGames.BasicApi;
+
 using UnityEngine.SocialPlatforms;
 
 public class PlayServices : MonoBehaviour
@@ -25,6 +24,7 @@ public class PlayServices : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        /*
         PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder().Build();
 
         PlayGamesPlatform.InitializeInstance(config);
@@ -32,6 +32,7 @@ public class PlayServices : MonoBehaviour
         PlayGamesPlatform.DebugLogEnabled = true;
 
         PlayGamesPlatform.Activate();
+        */
         SingIn();
     }
 
@@ -52,10 +53,12 @@ public class PlayServices : MonoBehaviour
     }
     public void IncrementAchievement(string id, int stepToIncrement)
     {
+        /*
         PlayGamesPlatform.Instance.IncrementAchievement(id, stepToIncrement, success =>
         {
 
         });
+        */
     }
 
     public void ShowAchievement()

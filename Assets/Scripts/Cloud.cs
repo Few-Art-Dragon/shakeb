@@ -13,7 +13,7 @@ public class Cloud : MonoBehaviour
     private float minRand, maxRand;
     [SerializeField]
     private float distanceMoveCloud;
-    private Transform _transform;
+    private Transform _transformText;
 
     private void OnEnable()
     {
@@ -38,30 +38,30 @@ public class Cloud : MonoBehaviour
     }
     private void MoveCloud()
     {
-        _transform.position = Vector3.MoveTowards(_transform.position, _target, Time.deltaTime * _speedCloud);
+        _transformText.position = Vector3.MoveTowards(_transformText.position, _target, Time.deltaTime * _speedCloud);
     }
 
     private Vector3 CheckWhereMove()
     {
         Vector3 x = new Vector3(0f, 0f, 0f);
-        if (_transform.position.x > -6.1f && _transform.position.x < 0f)
+        if (_transformText.position.x > -6.1f && _transformText.position.x < 0f)
         {
-            x = new Vector3(distanceMoveCloud, _transform.position.y, 0f);
+            x = new Vector3(distanceMoveCloud, _transformText.position.y, 0f);
         }
-        else if (_transform.position.x > 0 && _transform.position.x < 6.1f)
+        else if (_transformText.position.x > 0 && _transformText.position.x < 6.1f)
         {
-            x = new Vector3(-distanceMoveCloud, _transform.position.y, 0f);
+            x = new Vector3(-distanceMoveCloud, _transformText.position.y, 0f);
         }
-        else if (_transform.position.x == 0)
+        else if (_transformText.position.x == 0)
         {
             int rand = Random.Range(0, 2);
             if (rand == 0)
             {
-                x = new Vector3(distanceMoveCloud, _transform.position.y, 0f);
+                x = new Vector3(distanceMoveCloud, _transformText.position.y, 0f);
             }
             else if (rand == 1)
             {
-                x = new Vector3(-distanceMoveCloud, _transform.position.y, 0f);
+                x = new Vector3(-distanceMoveCloud, _transformText.position.y, 0f);
             }
         }
         return x;
@@ -92,7 +92,7 @@ public class Cloud : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         RandomSpeedCloud();
-        _transform = GetComponent<Transform>();
+        _transformText = GetComponent<Transform>();
         _target = CheckWhereMove();
         _canMove = true;
         StartCoroutine(IDestroy());
